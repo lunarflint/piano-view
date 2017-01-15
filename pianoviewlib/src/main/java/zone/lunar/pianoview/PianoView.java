@@ -286,8 +286,7 @@ public class PianoView extends View {
             }
         }
 
-        int ret = octave * 12 + key;
-        return ret;
+        return octave * 12 + key;
     }
 
     @Override
@@ -445,9 +444,7 @@ public class PianoView extends View {
                 }
 
                 int note = pixelToMidiNote(x, y);
-                int velocity;
-
-                velocity = (int) (0.5f + y * 127f / (height * (1 - WB_V_RATIO)));
+                int velocity = (int) (0.5f + y * 127f / (height * (1 - WB_V_RATIO)));
                 velocity = velocity > 127 ? 127 : velocity;
 
                 touches.add(note);
@@ -466,8 +463,10 @@ public class PianoView extends View {
                     pointerId = -1;
 
                 int note = pointerMap.get(id, Integer.MIN_VALUE);
-                if(note != Integer.MIN_VALUE)
+                if(note != Integer.MIN_VALUE) {
                     touches.remove(note);
+                    pointerMap.delete(id);
+                }
                 postInvalidate();
                 if(listener != null)
                     listener.onKeyUp(note);
